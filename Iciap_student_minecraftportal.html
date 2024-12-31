@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+        }
+        input[type="text"], input[type="password"], input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        input[type="submit"] {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Login</h1>
+        <form id="loginForm">
+            <input type="text" id="username" placeholder="Enter Username" required>
+            <input type="password" id="password" placeholder="Enter Password" required minlength="8">
+            <input type="submit" value="Sign In">
+        </form>
+    </div>
+
+    <script>
+        const loginForm = document.getElementById("loginForm");
+        loginForm.addEventListener("submit", function (event) {
+            event.preventDefault(); // Prevent form submission
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+
+            if (username && password.length >= 8) {
+                // Redirect to grades page
+                document.body.innerHTML = `
+                    <div class="container">
+                        <h1>Please Enter Your Name</h1>
+                        <input type="text" id="name" placeholder="Enter Your Name">
+                        <input type="button" value="View Grades" id="viewGrades">
+                        <div id="gradesTable"></div>
+                    </div>
+                `;
+
+                document.getElementById("viewGrades").addEventListener("click", function () {
+                    const name = document.getElementById("name").value;
+                    if (name.trim() === "") {
+                        alert("Please enter your name.");
+                        return;
+                    }
+
+                    const subjects = {
+                        "General Biology": Math.floor(Math.random() * 11) + 85,
+                        "General Mathematics": Math.floor(Math.random() * 11) + 85,
+                        "Pre-Calculus": Math.floor(Math.random() * 11) + 85,
+                        "EAPP": Math.floor(Math.random() * 11) + 85,
+                        "PE and Health": 91,
+                        "Komunikasyon": Math.floor(Math.random() * 11) + 85,
+                        "Oral Communication": Math.floor(Math.random() * 11) + 85,
+                        "Earth and Life Science": Math.floor(Math.random() * 11) + 85,
+                    };
+
+                    let tableHtml = `
+                        <h2>Grades for ${name}</h2>
+                        <table border="1" style="width: 100%; text-align: left; border-collapse: collapse;">
+                            <tr>
+                                <th>Subject</th>
+                                <th>Grade</th>
+                            </tr>
+                    `;
+
+                    for (const [subject, grade] of Object.entries(subjects)) {
+                        tableHtml += `
+                            <tr>
+                                <td>${subject}</td>
+                                <td>${grade}</td>
+                            </tr>
+                        `;
+                    }
+
+                    tableHtml += `</table>`;
+                    document.getElementById("gradesTable").innerHTML = tableHtml;
+                });
+            } else {
+                alert("Invalid username or password. Password must be at least 8 characters.");
+            }
+        });
+    </script>
+</body>
+</html>
